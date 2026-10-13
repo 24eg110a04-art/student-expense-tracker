@@ -17,7 +17,7 @@ const categories = ['Food', 'Transport', 'Books', 'Fees', 'Shopping', 'Entertain
 const transactionTypes = ['income', 'expense'];
 
 function isValidDate(value) {
-  if (typeof value !== 'string' || !/^\\d{4}-\\d{2}-\\d{2}$/.test(value)) return false;
+  if (typeof value !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
   const date = new Date(`${value}T00:00:00Z`);
   return !Number.isNaN(date.getTime()) && date.toISOString().slice(0, 10) === value;
 }
@@ -43,7 +43,7 @@ app.get('/api/expenses', async (req, res) => {
       values.push(category);
       conditions.push(`category = $${values.length}`);
     }
-    if (month && /^\\d{4}-\\d{2}$/.test(month)) {
+    if (month && /^\d{4}-\d{2}$/.test(month)) {
       values.push(month);
       conditions.push(`TO_CHAR(expense_date, 'YYYY-MM') = $${values.length}`);
     }
