@@ -1,14 +1,10 @@
-CREATE DATABASE IF NOT EXISTS student_expense_tracker;
-USE student_expense_tracker;
-
 CREATE TABLE IF NOT EXISTS expenses (
-  id INT AUTO_INCREMENT PRIMARY KEY,
+  id SERIAL PRIMARY KEY,
   title VARCHAR(120) NOT NULL,
-  amount DECIMAL(10,2) NOT NULL,
-  category ENUM('Food','Transport','Books','Fees','Shopping','Entertainment','Other') NOT NULL DEFAULT 'Other',
-  transaction_type ENUM('income','expense') NOT NULL DEFAULT 'expense',
+  amount NUMERIC(10, 2) NOT NULL CHECK (amount > 0),
+  category VARCHAR(32) NOT NULL CHECK (category IN ('Food', 'Transport', 'Books', 'Fees', 'Shopping', 'Entertainment', 'Other')),
+  transaction_type VARCHAR(8) NOT NULL DEFAULT 'expense' CHECK (transaction_type IN ('income', 'expense')),
   expense_date DATE NOT NULL,
-  notes VARCHAR(500) DEFAULT NULL,
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  CHECK (amount > 0)
+  notes VARCHAR(500),
+  created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
